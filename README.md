@@ -17,6 +17,7 @@ modified, i.e. run unit tests.
     Observe specified paths, or current directory.
 
       -e <command>    Execute command when any files are modified
+      -i <filter>     Ignore files matching filter
       -h              Show this help and exit
 
 ### License 

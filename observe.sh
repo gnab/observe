@@ -19,12 +19,22 @@ observe()
         CMD=$1
         echo "Executing \"$CMD\" when any files are modified"
       ;;
+      "-i")
+        if [ $# -lt 2 ]; then
+          echo "Missing filter after -i parameter."
+          return
+        fi
+        shift
+        IGNORE="-not -name $1"
+        echo "Ignoring files matching filter \"$1\""
+      ;;
       "-h")
         echo "Usage: observe [OPTION]... [PATH]..."
         echo
         echo "Observe specified paths, or current directory."
         echo
         echo "  -e <command>    Execute command when any files are modified"
+        echo "  -i <filter>     Ignore files matching filter"
         echo "  -h              Show this help and exit"
         echo
         return
@@ -48,7 +58,7 @@ observe()
 
   NOW=`date`
   while true; do 
-    while [ -z `find -L $PATHS -type f -newermt "$NOW"` ]; do 
+    while [ -z `find -L $PATHS -type f -newermt "$NOW" $IGNORE` ]; do 
       sleep 1
     done; 
     if [ -n "$!" ]; then
