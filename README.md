@@ -7,8 +7,8 @@ unit tests.
 
 ### Installation
 
-    git clone https://github.com/gnab/observe.git .observe
-    echo ". ./observe/observe.sh" >> .bashrc
+    git clone https://github.com/gnab/observe.git ~/.observe
+    echo ". ~/.observe/observe.sh" >> ~/.bashrc
 
 ### Usage
 
