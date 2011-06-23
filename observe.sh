@@ -60,10 +60,10 @@ observe()
   while true; do 
     while true; do
       MODIFIED=`find -L $PATHS -type f -newermt "$NOW" $IGNORE`
-        if [ -n "$MODIFIED" ]; then
-          break
-        fi
-        sleep 1
+      if [ -n "$MODIFIED" ]; then
+        break
+      fi
+      sleep 1
     done
     if [ -n "$!" ]; then
       kill -0 $! && kill $! && sleep 1
@@ -76,6 +76,7 @@ observe()
         echo $file
       done
     fi
+    sleep 1
     NOW=`date`
   done
 }
