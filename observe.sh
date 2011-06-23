@@ -72,7 +72,9 @@ observe()
       # TODO: Make background process optional with parameter
       $CMD #&
     else
-      echo $MODIFIED
+      for file in $MODIFIED; do
+        echo $file
+      done
     fi
     NOW=`date`
   done
