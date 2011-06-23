@@ -20,6 +20,11 @@ modified, i.e. run unit tests.
       -i <filter>     Ignore files matching filter
       -h              Show this help and exit
 
+### Examples
+
+    # run "rake" when non-"*.swp" files in current directory are modified
+    observe -e rake -i "*.swp"
+
 ### License 
 
 observe is licensed under the MIT license. See LICENCE for further 
