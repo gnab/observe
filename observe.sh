@@ -1,7 +1,7 @@
 # Observe
 #
-# Utility for observing paths and run a given command when any oberved files
-# are modified, i.e. run unit tests.
+# Utility for observing paths and executing a given command when any files are
+# modified, i.e. run unit tests.
 #
 # Implemented by Ole Petter Bang <olepbang@gmail.com>
 
