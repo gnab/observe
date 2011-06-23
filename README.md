@@ -1,9 +1,9 @@
 # observe
 
-### Bash Function for Observing Files and Executing Command
+### Bash function for observing paths and acting upon file modification.
 
-Utility for executing command when specific files are modified, i.e. running
-unit tests.
+Utility for observing paths and executing a given command when any files are
+modified, i.e. run unit tests.
 
 ### Installation
 
@@ -12,11 +12,11 @@ unit tests.
 
 ### Usage
 
-    observe [OPTION]... [FILE]...
+    observe [OPTION]... [PATH]...
 
-    Observe specified files, or current directory.
+    Observe specified paths, or current directory.
 
-      -e <command>    Execute command when any observed files are modified
+      -e <command>    Execute command when any files are modified
       -h              Show this help and exit
 
 ### License 

@@ -1,10 +1,13 @@
 # Observe
 #
-# Observe files and execute command when files are modified.
+# Utility for observing paths and run a given command when any oberved files
+# are modified, i.e. run unit tests.
+#
+# Implemented by Ole Petter Bang <olepbang@gmail.com>
 
 observe()
 {
-  FILES=""
+  PATHS=""
   while [ $# -gt 0 ]; do
     case $1 in
       "-e")
@@ -14,38 +17,38 @@ observe()
         fi
         shift
         CMD=$1
-        echo "Executing \"$CMD\" when files are modified"
+        echo "Executing \"$CMD\" when any files are modified"
       ;;
       "-h")
-        echo "Usage: observe [OPTION]... [FILE]..."
+        echo "Usage: observe [OPTION]... [PATH]..."
         echo
-        echo "Observe specified files, or current directory."
+        echo "Observe specified paths, or current directory."
         echo
-        echo "  -e <command>    Execute command when any observed files are modified"
+        echo "  -e <command>    Execute command when any files are modified"
         echo "  -h              Show this help and exit"
         echo
         return
       ;;
       *)
-        FILES="$FILES $1"
+        PATHS="$PATHS $1"
       ;;
     esac
 
     shift
   done
 
-  if [ -z "$FILES" ]; then
-    echo "Observing files in current directory"
+  if [ -z "$PATHS" ]; then
+    echo "Observing current directory"
   else
-    echo "Observing files:"
-    for file in $FILES; do
-      echo "    $file"
+    echo "Observing paths:"
+    for path in $PATHS; do
+      echo "    $path"
     done
   fi
 
   NOW=`date`
   while true; do 
-    while [ -z `find -L $FILES -type f -newermt "$NOW"` ]; do 
+    while [ -z `find -L $PATHS -type f -newermt "$NOW"` ]; do 
       sleep 1
     done; 
     if [ -n "$!" ]; then
