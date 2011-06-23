@@ -58,9 +58,13 @@ observe()
 
   NOW=`date`
   while true; do 
-    while [ -z `find -L $PATHS -type f -newermt "$NOW" $IGNORE` ]; do 
-      sleep 1
-    done; 
+    while true; do
+      MODIFIED=`find -L $PATHS -type f -newermt "$NOW" $IGNORE`
+        if [ -n "$MODIFIED" ]; then
+          break
+        fi
+        sleep 1
+    done
     if [ -n "$!" ]; then
       kill -0 $! && kill $! && sleep 1
     fi
@@ -68,8 +72,7 @@ observe()
       # TODO: Make background process optional with parameter
       $CMD #&
     else
-      # TODO: Print name of file
-      echo
+      echo $MODIFIED
     fi
     NOW=`date`
   done
