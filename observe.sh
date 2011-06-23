@@ -46,5 +46,22 @@ observe()
     done
   fi
 
-  # TODO: Do the actual observe of files and execute on modify
+  NOW=`date`
+  while true; do 
+    while [ -z `find -L $FILES -type f -newermt "$NOW"` ]; do 
+      sleep 1
+    done; 
+    if [ "$!" != "" ]; then
+      kill -0 $! && kill $! && sleep 1
+    fi
+    echo "CMD = $CMD"
+    if [ "$CMD" != "" ]; then
+      # TODO: Make background process optional with parameter
+      $CMD #&
+    else
+      # TODO: Print name of file
+      echo
+    fi
+    NOW=`date`
+  done
 }
