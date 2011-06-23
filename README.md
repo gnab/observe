@@ -12,7 +12,9 @@ unit tests.
 
 ### Usage
 
-    observe file ... [command]
+    observe [file] ...                Print file path when files are modified
+    observe -e <command> [file] ...   Execute command when files are modified
+    observe -h                        Show this help
 
 ### License 
 
