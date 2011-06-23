@@ -1,8 +1,6 @@
 # Observe
 #
-# Execute command when files are modified
-
-# https://gist.github.com/996970
+# Observe files and execute command when files are modified.
 
 observe()
 {
@@ -19,13 +17,12 @@ observe()
         echo "Executing \"$CMD\" when files are modified"
       ;;
       "-h")
+        echo "Usage: observe [OPTION]... [FILE]..."
         echo
-        echo "Observe"
+        echo "Observe specified files, or current directory."
         echo
-        echo "Usage:"
-        echo "    observe [file] ...                Print file path when files are modified"
-        echo "    observe -e <command> [file] ...   Execute command when files are modified"
-        echo "    observe -h                        Show this help"
+        echo "  -e <command>    Execute command when any observed files are modified"
+        echo "  -h              Show this help and exit"
         echo
         return
       ;;
@@ -37,7 +34,7 @@ observe()
     shift
   done
 
-  if [ "$FILES" == "" ]; then
+  if [ -z "$FILES" ]; then
     echo "Observing files in current directory"
   else
     echo "Observing files:"
@@ -51,11 +48,10 @@ observe()
     while [ -z `find -L $FILES -type f -newermt "$NOW"` ]; do 
       sleep 1
     done; 
-    if [ "$!" != "" ]; then
+    if [ -n "$!" ]; then
       kill -0 $! && kill $! && sleep 1
     fi
-    echo "CMD = $CMD"
-    if [ "$CMD" != "" ]; then
+    if [ -n "$CMD" ]; then
       # TODO: Make background process optional with parameter
       $CMD #&
     else

@@ -12,9 +12,12 @@ unit tests.
 
 ### Usage
 
-    observe [file] ...                Print file path when files are modified
-    observe -e <command> [file] ...   Execute command when files are modified
-    observe -h                        Show this help
+    observe [OPTION]... [FILE]...
+
+    Observe specified files, or current directory.
+
+      -e <command>    Execute command when any observed files are modified
+      -h              Show this help and exit
 
 ### License 
 
