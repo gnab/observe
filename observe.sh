@@ -21,6 +21,14 @@ observe()
         echo "Executing \"$CMD\" when any files are modified"
       ;;
 
+      "-b")
+        BG="1"
+      ;;
+
+      "-f")
+        FILE="1"
+      ;;
+
       "-i")
         if [ $# -lt 2 ]; then
           echo "Missing filter after -i parameter."
@@ -37,6 +45,8 @@ observe()
         echo "Observe specified paths, or current directory."
         echo
         echo "  -e <command>    Execute command when any files are modified"
+        echo "  -b              Execute the command in background (needs -e)"
+        echo "  -f              Execute the command on each changed file (needs -e)"
         echo "  -i <filter>     Ignore files matching filter"
         echo "  -h              Show this help and exit"
         echo
@@ -59,17 +69,18 @@ observe()
     done
   fi
 
+  HIDEERROR=" 2>&1 /dev/null"
   FIND="find -L $PATHS -type f -newermt"
   NOW=`date`
 
-  while true; do 
+  while true; do
 
     while true; do
       if [ -n "$IGNORE" ]; then
         MODIFIED=`$FIND "$NOW" -not -name "$IGNORE"`
       else
         MODIFIED=`$FIND "$NOW"`
-      fi      
+      fi
 
       if [ -n "$MODIFIED" ]; then
         break
@@ -78,12 +89,26 @@ observe()
     done
 
     if [ -n "$!" ]; then
-      kill -0 $! && kill $! && sleep 1
+      kill -0 $! $HIDEERROR && kill $! $HIDEERROR && sleep 1
     fi
 
     if [ -n "$CMD" ]; then
-      # TODO: Make background process optional with parameter
-      $CMD #&
+      if [ -n "$BG" ]; then
+        if [ -n "$FILE" ]; then
+          for file in $MODIFIED; do
+            $CMD $file &
+          done
+        else
+          $CMD &
+        fi
+      fi
+      if [ -n "$FILE" ]; then
+        for file in $MODIFIED; do
+          $CMD $file
+        done
+      else
+        $CMD
+      fi
     else
       for file in $MODIFIED; do
         echo $file
